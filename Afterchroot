@@ -6,7 +6,7 @@ echo "Set timezone to Greenwich, you can change it after installation"
 ln -sf /usr/share/zoneinfo/Greenwich /etc/localtime
 hwclock --systohc
 read -p "Choose your text editor: vim, nano, vi ... " texteditor
-pacman -S $texteditor1
+pacman -S $texteditor
 clear
 echo "Choose your locale, remember your locale name"
 sleep 2
