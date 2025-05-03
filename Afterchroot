@@ -1,0 +1,135 @@
+if [ -f /vars.sh ]; then
+  source /vars.sh
+fi
+
+echo "Set timezone to Greenwich, you can change it after installation"
+ln -sf /usr/share/zoneinfo/Greenwich /etc/localtime
+hwclock --systohc
+read -p "Choose your text editor: vim, nano, vi ... " texteditor
+pacman -S $texteditor1
+clear
+echo "Choose your locale, remember your locale name"
+sleep 2
+$texteditor /etc/locale.gen
+sleep 1
+locale-gen
+read -p "Enter your locale name like this en_US.UTF-8 " localename
+export LANG="$localename"
+export LC_COLLATE="C"
+while [[ "$osprober" != "yes" && "$osprober" != "no" ]]; do
+read -p "os-prober? yes/no " osprober
+done
+pacman -S grub efibootmgr
+if [[ "$osprober" == "yes" ]]; then
+  pacman -S os-prober
+fi
+
+if [[ "$UEFI" == "yes" ]]; then
+   grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+ else
+   grub-install --recheck /dev/$disk
+fi
+
+grub-mkconfig -o /boot/grub/grub.cfg
+clear
+ echo "Now set root password"
+ passwd
+
+read -p "User needed? yes/no" userneed
+ if [[ "$userneed" == "yes" ]]; then
+  read -p "username" username
+  useradd -m $username
+  echo "Password for your user"
+  passwd $username
+ fi
+ clear
+ echo "Hostname"
+ sleep 2
+ $texteditor /etc/hostname
+  if [[ "$initsystem" == "openrc" ]]; then
+   echo "openrc host"
+    $texteditor /etc/conf.d/hostname
+  fi
+echo "Hosts"
+sleep 2
+$texteditor /etc/hosts
+clear
+
+while [[ "$dhcpclient" != "dhcpcd" && "$dhcpclient" != "dhclient" ]]; do
+read -p "Install your prefered DHCP client (dhcpcd or dhclient) " dhcpclient
+done
+if [[ "$dhcpclient" == "dhcpcd" ]]; then
+  pacman -S dhcpcd
+else
+  pacman -S dhclient
+fi
+
+while [[ "$networkin" != "connman" && "$networkin" != "networkmanager" && "$networkin" != "none" ]]; do
+read -p "connman, networkmanager, none? " networkin
+done
+if [[ "$networkin" != "none" ]]; then
+  pacman -S $networkin
+  case $initsystem in
+    dinit)
+      pacman -S $networkin-dinit
+      ;;
+    runit)
+      pacman -S $networkin-runit
+      ;;
+    s6)
+      pacman -S $networkin-s6
+      ;;
+    openrc)
+      pacman -S $networkin-openrc
+      ;;
+  esac
+  echo "After install add to autostart by your init system"
+fi
+
+while [[ "$bluetooth" != "yes" && "$bluetooth" != "no" ]]; do
+read -p "Bluetooth yes/no " bluetooth
+done
+if [[ "$bluetooth" == "yes" ]]; then
+  pacman -S bluez
+    case $initsystem in
+    dinit)
+      pacman -S bluez-dinit
+      ;;
+    runit)
+      pacman -S bluez-runit
+      ;;
+    s6)
+      pacman -S bluez-s6
+      ;;
+    openrc)
+      pacman -S bluez-openrc
+      ;;
+  esac
+fi
+
+while [[ "$wireless" != "iwd" && "$wireless" != "wpa_supplicant" && "$wireless" != "none" ]]; do
+read -p "Wireless wpa_supplicant, iwd, none " wireless
+done
+if [[ "$wireless" != "none" ]]; then
+pacman -S $wireless
+case $initsystem in
+    dinit)
+      pacman -S $wireless-dinit
+      ;;
+    runit)
+      pacman -S $wireless-runit
+      ;;
+    s6)
+      pacman -S $wireless-s6
+      ;;
+    openrc)
+      pacman -S $wireless-openrc
+      ;;
+  esac
+fi
+
+echo "Default system is ready"
+sleep 1
+echo "Reboot in 5 seconds, extract media"
+sleep 5 
+reboot
