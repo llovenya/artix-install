@@ -49,16 +49,6 @@ if [[ "$filesystem" == "ext4" ]]; then
   fi
 fi
 
-if [[ "$filesystem" == "btrfs" ]]; then
-  mkfs.btrfs -L ROOT /dev/$rootdisk
-  if [[ "$HOMEIS" == "yes" ]]; then
-  mkfs.btrfs -L HOME /dev/$homedisk
-  fi
-  if [[ "$boot" != "UEFI" ]]; then
-    mkfs.btrfs -L BOOT /dev/$bootdisk
-  fi
-fi
-
 #clear
 mount /dev/disk/by-label/ROOT /mnt
 mkdir /mnt/boot
@@ -74,6 +64,16 @@ if [[ "$boot" == "BIOS" ]]; then
  mount /dev/disk/by-label/BOOT /mnt/boot
 fi
 #clear
+
+if [[ "$filesystem" == "btrfs" ]]; then
+  mkfs.btrfs -L ROOT /dev/$rootdisk
+  if [[ "$HOMEIS" == "yes" ]]; then
+  mkfs.btrfs -L HOME /dev/$homedisk
+  fi
+  if [[ "$boot" != "UEFI" ]]; then
+    mkfs.btrfs -L BOOT /dev/$bootdisk
+  fi
+fi
 
 update_var() {
   local varname=$1
