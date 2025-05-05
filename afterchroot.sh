@@ -11,7 +11,7 @@ locale=""
 ln -sf $localtime /etc/localtime
 hwclock --systohc
 #read -p "Choose your text editor: vim, nano, vi ... " texteditor
-#pacman -S --noconfirm $texteditor
+pacman -S --noconfirm $texteditor
 $texteditor /etc/locale.gen
 locale-gen
 locale=$(grep -Ev '^\s*(#|$)' /etc/locale.gen | head -n 1 | awk '{print $1}')
@@ -63,60 +63,19 @@ fi
 #read -p "connman, networkmanager, none? " networkin
 
 if [[ "$networkin" != "none" ]]; then
-  pacman -S --noconfirm $networkin
-  case $initsystem in
-    dinit)
-      pacman -S --noconfirm $networkin-dinit
-      ;;
-    runit)
-      pacman -S --noconfirm $networkin-runit
-      ;;
-    s6)
-      pacman -S --noconfirm $networkin-s6
-      ;;
-    openrc)
-      pacman -S --noconfirm $networkin-openrc
-      ;;
-  esac
+  pacman -S --noconfirm $networkin $networkin-$usrchooseinit
 fi
 
 #echo "After install add to autostart by your init system"
 
 #read -p "Bluetooth yes/no " bluetooth
 if [[ "$bluetooth" == "yes" ]]; then
-  pacman -S --noconfirm bluez
-    case $initsystem in
-    dinit)
-      pacman -S --noconfirm bluez-dinit
-      ;;
-    runit)
-      pacman -S --noconfirm bluez-runit
-      ;;
-    s6)
-      pacman -S --noconfirm bluez-s6
-      ;;
-    openrc)
-      pacman -S --noconfirm bluez-openrc
-      ;;
-  esac
+  pacman -S --noconfirm bluez bluez-$usrchoseeinit
 fi
+
 #read -p "Wireless wpa_supplicant, iwd, none " wireless
 if [[ "$wireless" != "none" ]]; then
-pacman -S --noconfirm $wireless
-case $initsystem in
-    dinit)
-      pacman -S --noconfirm $wireless-dinit
-      ;;
-    runit)
-      pacman -S --noconfirm $wireless-runit
-      ;;
-    s6)
-      pacman -S --noconfirm $wireless-s6
-      ;;
-    openrc)
-      pacman -S --noconfirm /$wireless-openrc
-      ;;
-  esac
+pacman -S --noconfirm $wireless $wireless-$usrchooseinit
 fi
 
 update_var() {
