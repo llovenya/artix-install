@@ -13,8 +13,6 @@ else
   basestrap /mnt linux linux-firmware
 fi
 
-
-
 fstabgen -U /mnt >> /mnt/etc/fstab
 
 update_var() {
