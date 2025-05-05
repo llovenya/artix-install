@@ -83,7 +83,6 @@ update_var() {
   if grep -q "^export $varname=" "$file" 2>/dev/null; then
     sed -i "s|^export $varname=.*|export $varname=\"$varvalue\"|" "$file"
   else
-    # Иначе добавляем в конец файла
     echo "export $varname=\"$varvalue\"" >> "$file"
   fi
 }
