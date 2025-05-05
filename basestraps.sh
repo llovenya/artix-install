@@ -7,7 +7,7 @@ likernel=""
 basestrap /mnt base base-devel $usrchooseinit elogind-$usrchooseinit
 
 #read -p "Choose kernel " likernel
-if[[ "$likernel" != "default" ]]; then
+if [[ "$likernel" != "default" ]]; then
 . basestrap /mnt linux-$likernel linux-firmware
 else
   basestrap /mnt linux linux-firmware
