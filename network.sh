@@ -1,4 +1,6 @@
 #!/bin/bash
+eval "$(grep '^initsystem=' vars.sh)"
+
 
 while ! ping -c2 artixlinux.org  ; do
   #clear
@@ -10,7 +12,6 @@ while ! ping -c2 artixlinux.org  ; do
   connmanctl connect "$SERVICE_ID"
 done
 
-eval "$(grep '^initsystem=' vars.sh)"
 #echo $initsystem
 
 case initsystem in
