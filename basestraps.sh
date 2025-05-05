@@ -4,44 +4,16 @@ usrchooseinit=""
 likernel=""
 
 #read -p "choose you init after install " usrchooseinit
-
-case $usrchooseinit in 
- dinit)
-    basestrap /mnt base base-devel dinit elogind-dinit
-   ;;
- openrc)
-    basestrap /mnt base base-devel openrc elogind-openrc
-   ;;
- runit)
-     basestrap /mnt base base-devel runit elogind-runit
-    ;;
-  s6)
-     basestrap /mnt base base-devel s6-base elogind-s6
-    ;;
-esac
+basestrap /mnt base base-devel $usrchooseinit elogind-$usrchooseinit
 
 #read -p "Choose kernel " likernel
+if[[ "$likernel" != "default" ]]; then
+. basestrap /mnt linux-$likernel linux-firmware
+else
+  basestrap /mnt linux linux-firmware
+fi
 
-case $likernel in
-  default)
-    basestrap /mnt linux linux-firmware
-    ;;
-  zen)
-     basestrap /mnt linux-zen linux-firmware
-    ;;
-  lts)
-    basestrap /mnt linux-lts linux-firmware
-    ;;
-  rt)
-     basestrap /mnt linux-rt linux-firmware
-    ;;
-  rt-lts)
-     basestrap /mnt linux-rt-lts linux-firmware
-    ;;
-  ck)
-      basestrap /mnt linux-ck linux-firmware
-     ;;
-esac
+
 
 fstabgen -U /mnt >> /mnt/etc/fstab
 
