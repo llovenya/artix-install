@@ -30,6 +30,6 @@ esac
 
 pacman-key --init
 pacman-key --populate artix
-pacman -Syu
+pacman --noconfirm -Syu
 echo Ok
 
