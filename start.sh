@@ -3,6 +3,6 @@ chmod +x read.sh
 chmod +x network.sh
 chmod +x autoinstall.sh
 
-./network.sh
 ./read.sh
+./network.sh
 ./autoinstall.sh
