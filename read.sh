@@ -100,7 +100,6 @@ networkin="Хo"
 dhcpclient="Хo"
 bluetooth="Хo"
 locale="Хo"
-rootpass=""
 while ! [[ -f "/usr/share/zoneinfo/$localetime" ]]; do
   clear
   ls /usr/share/zoneinfo
@@ -128,10 +127,6 @@ locale=$(grep -Ev '^\s*(#|$)' /etc/locale.gen | head -n 1 | awk '{print $1}')
 
 while [[ "$osprober" != "yes" && "$osprober" != "no" ]]; do
 read -p "dualboot? yes/no " osprober
-done
-
-while [[ "$rootpass" == "" ]]; do
-  read -p "root password " rootpass
 done
 
 read -p "hostname: " hostname
