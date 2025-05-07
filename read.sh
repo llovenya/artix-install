@@ -101,17 +101,17 @@ dhcpclient="Хo"
 bluetooth="Хo"
 locale="Хo"
 rootpass=""
-while ! [[ -f "/mnt/usr/share/zoneinfo/$localetime" ]]; do
+while ! [[ -f "/usr/share/zoneinfo/$localetime" ]]; do
   clear
   ls /mnt/usr/share/zoneinfo
   read -p "Choose your region " localetime
-  if [[ -d "/mnt/usr/share/zoneinfo/$localetime" ]]; then
+  if [[ -d "/usr/share/zoneinfo/$localetime" ]]; then
     localetimedirectory="$localetime"
     ls /mnt/usr/share/zoneinfo/$localetimedirectory
     read -p "Choose time zone " localetimezone
     localetime="${localetimedirectory}/${localetimezone}"
   fi
-  if ! [[ -f "/mnt/usr/share/zoneinfo/$localetime" ]]; then
+  if ! [[ -f "/usr/share/zoneinfo/$localetime" ]]; then
     echo "Incorrect region"
   fi
 done
