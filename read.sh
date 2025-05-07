@@ -103,11 +103,11 @@ locale="Хo"
 rootpass=""
 while ! [[ -f "/usr/share/zoneinfo/$localetime" ]]; do
   clear
-  ls /mnt/usr/share/zoneinfo
+  ls /usr/share/zoneinfo
   read -p "Choose your region " localetime
   if [[ -d "/usr/share/zoneinfo/$localetime" ]]; then
     localetimedirectory="$localetime"
-    ls /mnt/usr/share/zoneinfo/$localetimedirectory
+    ls /usr/share/zoneinfo/$localetimedirectory
     read -p "Choose time zone " localetimezone
     localetime="${localetimedirectory}/${localetimezone}"
   fi
