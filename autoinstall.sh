@@ -35,6 +35,7 @@ mkdir -p /mnt/boot
 if [[ "$HOMEIS" == "yes" ]]; then
   mkdir -p /mnt/home
   mount /dev/disk/by-label/HOME /mnt/home
+fi
 if [[ "$boot" == "UEFI" ]]; then
   mkdir -p /mnt/boot/efi
   mount /dev/disk/by-label/ESP /mnt/boot/efi
