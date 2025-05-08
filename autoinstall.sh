@@ -39,7 +39,6 @@ fi
 if [[ "$boot" == "UEFI" ]]; then
   mkdir -p /mnt/boot/efi
   mount /dev/disk/by-label/ESP /mnt/boot/efi
-fi
 elif [[ "$boot" == "BIOS" ]]; then
  mount /dev/disk/by-label/BOOT /mnt/boot
 fi
