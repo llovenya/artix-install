@@ -7,22 +7,22 @@ if [[ "$SWAP" == "yes" ]]; then
 fi
 
 if [[ "$filesystem" == "ext4" ]]; then
-  mkfs.ext4 -L ROOT /dev/$rootdisk
+  mkfs.ext4 -f -L ROOT /dev/$rootdisk
   if [[ "$HOMEIS" == "yes" ]]; then
-  mkfs.ext4 -L HOME /dev/$homedisk
+  mkfs.ext4 -f -L HOME /dev/$homedisk
   fi
   if [[ "$boot" == "BIOS" ]]; then
-  mkfs.ext4 -L BOOT /dev/$bootdisk
+  mkfs.ext4 -f -L BOOT /dev/$bootdisk
   fi
 fi
 
 if [[ "$filesystem" == "btrfs" ]]; then
-  mkfs.btrfs -L ROOT /dev/$rootdisk
+  mkfs.btrfs -f -L ROOT /dev/$rootdisk
   if [[ "$HOMEIS" == "yes" ]]; then
-  mkfs.btrfs -L HOME /dev/$homedisk
+  mkfs.btrfs -f -L HOME /dev/$homedisk
   fi
   if [[ "$boot" == "BIOS" ]]; then
-    mkfs.btrfs -L BOOT /dev/$bootdisk
+    mkfs.btrfs -f -L BOOT /dev/$bootdisk
   fi
 fi
 if [[ "$boot" == "UEFI" ]]; then
@@ -81,10 +81,8 @@ if [[ "$usrchooseinit" == "openrc" ]]; then
 fi
 echo -e "# Static table lookup for hostnames.\n# See hosts(5) for details.\n127.0.0.1		localhost\n::1			localhost\n127.0.0.1		"$hostname".localdomain	"$hostname"" > /mnt/etc/hosts
 
-if [[ "$dhcpclient" == "dhcpcd" ]]; then
-  basestrap -i /mnt dhcpcd
-elif [[ "$dhcpclient" == "dhclient" ]]; then
-  basestrap -i /mnt dhclient
+if [[ "$dhcpclient" != "none" ]]; then
+  basestrap -i /mnt $dhcpclient
 fi
 if [[ "$networkin" != "none" ]]; then
   basestrap $networkin $networkin-$usrchooseinit
