@@ -1,8 +1,6 @@
 #!/usr/bin/bash
 source vars.sh
 
-exec > script.log 2>&1 #logs
-
 #Auto partition
 if [[ "$SWAP" == "yes" ]]; then
   mkswap -L SWAP "/dev/$swapdisk"
