@@ -38,6 +38,7 @@ if [[ "$HOMEIS" == "yes" ]]; then
 if [[ "$boot" == "UEFI" ]]; then
   mkdir -p /mnt/boot/efi
   mount /dev/disk/by-label/ESP /mnt/boot/efi
+fi
 elif [[ "$boot" == "BIOS" ]]; then
  mount /dev/disk/by-label/BOOT /mnt/boot
 fi
@@ -83,13 +84,13 @@ if [[ "$dhcpclient" != "none" ]]; then
   basestrap /mnt $dhcpclient
 fi
 if [[ "$networkin" != "none" ]]; then
-  basestrap $networkin $networkin-$usrchooseinit
+  basestrap /mnt $networkin $networkin-$usrchooseinit
 fi
 if [[ "$bluetooth" == "yes" ]]; then
-  basestrap bluez bluez-$usrchooseinit
+  basestrap /mnt bluez bluez-$usrchooseinit
 fi
 if [[ "$wireless" != "none" ]]; then
-  basestrap $wireless $wireless-$usrchooseinit
+  basestrap /mnt $wireless $wireless-$usrchooseinit
 fi
 clear
 cp vars.sh /mnt/root/
