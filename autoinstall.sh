@@ -87,13 +87,13 @@ elif [[ "$dhcpclient" == "dhclient" ]]; then
   basestrap -i /mnt dhclient
 fi
 if [[ "$networkin" != "none" ]]; then
-  basestrap -i $networkin $networkin-$usrchooseinit
+  basestrap $networkin $networkin-$usrchooseinit
 fi
 if [[ "$bluetooth" == "yes" ]]; then
-  basestrap -i bluez bluez-$usrchooseinit
+  basestrap bluez bluez-$usrchooseinit
 fi
 if [[ "$wireless" != "none" ]]; then
-  basestrap -i $wireless $wireless-$usrchooseinit
+  basestrap $wireless $wireless-$usrchooseinit
 fi
 clear
 cp vars.sh /mnt/root/
