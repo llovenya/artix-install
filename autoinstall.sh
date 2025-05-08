@@ -45,27 +45,27 @@ if [[ "$boot" == "BIOS" ]]; then
 fi
 
 # init and kernel
-basestrap -i /mnt base base-devel $usrchooseinit elogind-$usrchooseinit
+basestrap /mnt base base-devel $usrchooseinit elogind-$usrchooseinit
 
 if [[ "$likernel" != "default" ]]; then
-  basestrap -i /mnt linux-$likernel linux-firmware
+  basestrap /mnt linux-$likernel linux-firmware
 else
-  basestrap -i /mnt linux linux-firmware
+  basestrap /mnt linux linux-firmware
 fi
 
 fstabgen -U /mnt > /mnt/etc/fstab
 
 #locale timezone
 ln -sf /usr/share/zoneinfo/$localetime /mnt/etc/localtime
-basestrap -i /mnt $texteditor
+basestrap /mnt $texteditor
 cp -f /etc/locale.gen /mnt/etc/locale.gen
 artix-chroot /mnt locale-gen
 echo "LANG=$locale" >> /mnt/etc/environment
 echo "LC_COLLATE=C" >> /mnt/etc/environment
 #grub
-basestrap -i /mnt grub efibootmgr
+basestrap /mnt grub efibootmgr
 if [[ "$osprober" == "yes" ]]; then
-  basestrap -i /mnt os-prober
+  basestrap /mnt os-prober
 fi
 
 if [[ "$boot" == "UEFI" ]]; then
@@ -82,7 +82,7 @@ fi
 echo -e "# Static table lookup for hostnames.\n# See hosts(5) for details.\n127.0.0.1		localhost\n::1			localhost\n127.0.0.1		"$hostname".localdomain	"$hostname"" > /mnt/etc/hosts
 
 if [[ "$dhcpclient" != "none" ]]; then
-  basestrap -i /mnt $dhcpclient
+  basestrap /mnt $dhcpclient
 fi
 if [[ "$networkin" != "none" ]]; then
   basestrap $networkin $networkin-$usrchooseinit
