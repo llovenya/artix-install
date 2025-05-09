@@ -103,7 +103,7 @@ bluetooth=""
 locale=""
 ntp=""
 
-while [[ "$rootpass" == "" ]]; do
+while [[ -z "$rootpass" ]]; do
   read -p "Enter new root pass " rootpass
 done
 while ! [[ -f "/usr/share/zoneinfo/$localetime" ]]; do
