@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 source vars.sh
-set -x
+set -e
 #Auto partition
 if [[ "$boot" == "BIOS" ]]; then
   mkfs.$filesystem -f -L BOOT /dev/$bootdisk
