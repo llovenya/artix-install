@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-
+# Your vars file
 locale=$(grep -Ev '^\s*(#|$)' /etc/locale.gen | head -n 1 | awk '{print $1}')
 boot="$([ -d /sys/firmware/efi ] && echo "UEFI" || echo "BIOS")"
 export disk=""
