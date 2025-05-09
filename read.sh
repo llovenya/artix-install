@@ -154,8 +154,8 @@ while [[ "$wireless" != "iwd" && "$wireless" != "wpa_supplicant" && "$wireless" 
   read -p "Wireless: wpa_supplicant, iwd, none " wireless
 done
 
-while [[ "$ntp" != "ntp" && "openntpd" != "no" && "$ntp" != "none" ]]; do
-  read -p "ntp, opentpd, none " ntp
+while [[ "$ntp" != "ntp" && "$ntp" != "openntpd" && "$ntp" != "none" ]]; do
+  read -p "ntp, openntpd, none " ntp
 done
 
 update_var() {
