@@ -86,6 +86,12 @@ fi
 if [[ "$ntp" != "none" ]]; then
   basestrap /mnt $ntp $ntp-$usrchooseinit
 fi
+
+mount --bind /dev /mnt/dev
+mount --bind /proc /mnt/proc
+mount --bind /sys /mnt/sys
+mount --bind /dev /mnt/dev
+
 echo "root:$rootpass" | chpasswd -R /mnt
 
 clear
