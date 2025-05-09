@@ -191,7 +191,6 @@ update_var hostname "$hostname"
 update_var locale "$locale"
 update_var localetime "$localetime"
 update_var ntp "$ntp"
-update_var rootpass "$rootpass"
 
 clear
 
