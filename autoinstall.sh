@@ -83,6 +83,11 @@ fi
 if [[ "$wireless" != "none" ]]; then
   basestrap /mnt $wireless $wireless-$usrchooseinit
 fi
+if [[ "$ntp" != "none" ]]; then
+  basestrap /mnt $ntp $ntp-$usrchooseinit
+fi
+echo "root:$rootpass" | chroot /mnt chpasswd
+
 clear
 cp vars.sh /mnt/root/
 
