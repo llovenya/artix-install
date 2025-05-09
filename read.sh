@@ -15,13 +15,13 @@ cfdisk "/dev/$disk"
 clear
 
 #Choose mount 
-bootdisk="Хo"
-rootdisk="Хo"
-swapdisk="Хo"
-homedisk="Хo"
-filesystem="Хo"
-HOMEIS="Хo"
-SWAP="Хo"
+bootdisk=""
+rootdisk=""
+swapdisk=""
+homedisk=""
+filesystem=""
+HOMEIS=""
+SWAP=""
 
   while ! [[ -b "/dev/$bootdisk" ]]; do
     clear
@@ -78,8 +78,8 @@ done
 clear
 
 # Init and kernel choose
-usrchooseinit="Хo"
-likernel="Хo"
+usrchooseinit=""
+likernel=""
 
 while [[ "$usrchooseinit" != "dinit" && "$usrchooseinit" != "openrc" && "$usrchooseinit" != "runit" && "$usrchooseinit" != "s6"   ]]; do
 read -p "choose you init after install " usrchooseinit
@@ -91,15 +91,21 @@ done
 clear
 
 #System data
-localetime="Хo"
-localetimezone="Хo"
-localetimedirectory="Хo"
-osprober="Хo"
-hostname="Хo"
-networkin="Хo"
-dhcpclient="Хo"
-bluetooth="Хo"
-locale="Хo"
+rootpass=""
+localetime=""
+localetimezone=""
+localetimedirectory=""
+osprober=""
+hostname=""
+networkin=""
+dhcpclient=""
+bluetooth=""
+locale=""
+ntp=""
+
+while [[ "$rootpass" == "" ]]; do
+  read -p "Enter new root pass " rootpass
+done
 while ! [[ -f "/usr/share/zoneinfo/$localetime" ]]; do
   clear
   ls /usr/share/zoneinfo
@@ -132,7 +138,7 @@ done
 read -p "hostname: " hostname
 
 while [[ "$dhcpclient" != "dhcpcd" && "$dhcpclient" != "dhclient" && "$dhcpclient" != "none" ]]; do
-  read -p "dhcpd client? dhcpcd, dhclient, none " dhcpclient
+  read -p "dhcpd client: dhcpcd, dhclient, none " dhcpclient
 done
 
 while [[ "$networkin" != "connman" && "$networkin" != "networkmanager" && "$networkin" != "none" ]]; do
@@ -145,7 +151,11 @@ while [[ "$bluetooth" != "yes" && "$bluetooth" != "no" ]]; do
 done
 
 while [[ "$wireless" != "iwd" && "$wireless" != "wpa_supplicant" && "$wireless" != "none" ]]; do
-  read -p "Wireless wpa_supplicant, iwd, none " wireless
+  read -p "Wireless: wpa_supplicant, iwd, none " wireless
+done
+
+while [[ "$ntp" != "ntp" && "openntpd" != "no" && "$ntp" != "none" ]]; do
+  read -p "ntp, opentpd, none " ntp
 done
 
 update_var() {
@@ -180,6 +190,8 @@ update_var wireless "$wireless"
 update_var hostname "$hostname"
 update_var locale "$locale"
 update_var localetime "$localetime"
+update_var ntp "$ntp"
+update_var rootpass "$rootpass"
 
 clear
 
