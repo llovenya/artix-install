@@ -1,47 +1,38 @@
 #!/usr/bin/bash
 source vars.sh
-
+set -x
 #Auto partition
-if [[ "$SWAP" == "yes" ]]; then
-  mkswap -L SWAP "/dev/$swapdisk"
-fi
-
-if [[ "$filesystem" == "ext4" ]]; then
-  mkfs.ext4 -f -L ROOT /dev/$rootdisk
-  if [[ "$HOMEIS" == "yes" ]]; then
-  mkfs.ext4 -f -L HOME /dev/$homedisk
-  fi
-  if [[ "$boot" == "BIOS" ]]; then
-  mkfs.ext4 -f -L BOOT /dev/$bootdisk
-  fi
-fi
-
-if [[ "$filesystem" == "btrfs" ]]; then
-  mkfs.btrfs -f -L ROOT /dev/$rootdisk
-  if [[ "$HOMEIS" == "yes" ]]; then
-  mkfs.btrfs -f -L HOME /dev/$homedisk
-  fi
-  if [[ "$boot" == "BIOS" ]]; then
-    mkfs.btrfs -f -L BOOT /dev/$bootdisk
-  fi
-fi
-if [[ "$boot" == "UEFI" ]]; then
+if [[ "$boot" == "BIOS" ]]; then
+  mkfs.$filesystem -f -L BOOT /dev/$bootdisk
+elif [[ "$boot" == "UEFI" ]]; then
   mkfs.fat -F 32 "/dev/$bootdisk"
   fatlabel "/dev/$bootdisk" ESP
 fi
-mount /dev/disk/by-label/ROOT /mnt
+
+  mkfs.$filesystem -f -L ROOT /dev/$rootdisk
+if [[ "$HOMEIS" == "yes" ]]; then
+  mkfs.$filesystem -f -L HOME /dev/$homedisk
+fi
+
+if [[ "$SWAP" == "yes" ]]; then
+  mkswap -L SWAP "/dev/$swapdisk"
+  swapon /dev/$swapdisk
+fi
+
+mount /dev/$rootdisk /mnt
 mkdir -p /mnt/boot
 
+if [[ "$boot" == "BIOS" ]]; then
+  mount /dev/$bootdisk /mnt/boot
+elif [[ "$boot" == "UEFI" ]]; then
+  mkdir -p /mnt/boot/efi
+  mount /dev/$bootdisk /mnt/boot/efi
+fi
 if [[ "$HOMEIS" == "yes" ]]; then
   mkdir -p /mnt/home
-  mount /dev/disk/by-label/HOME /mnt/home
+  mount /dev/$homedisk /mnt/home
 fi
-if [[ "$boot" == "UEFI" ]]; then
-  mkdir -p /mnt/boot/efi
-  mount /dev/disk/by-label/ESP /mnt/boot/efi
-elif [[ "$boot" == "BIOS" ]]; then
- mount /dev/disk/by-label/BOOT /mnt/boot
-fi
+
 
 # init and kernel
 basestrap /mnt base base-devel $usrchooseinit elogind-$usrchooseinit
