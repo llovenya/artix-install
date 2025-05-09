@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 #Choose disk
-disk="Хо"
+disk=""
 while ! [[ -b "/dev/$disk" ]] ; do
   clear
   lsblk
