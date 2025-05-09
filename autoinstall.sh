@@ -86,7 +86,7 @@ fi
 if [[ "$ntp" != "none" ]]; then
   basestrap /mnt $ntp $ntp-$usrchooseinit
 fi
-echo "root:$rootpass" | chroot /mnt chpasswd
+echo "root:$rootpass" | chpasswd -R /mnt
 
 clear
 cp vars.sh /mnt/root/
