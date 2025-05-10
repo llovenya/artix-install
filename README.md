@@ -13,6 +13,9 @@ The script first asks the questions and then automatically sets according to you
 * DE or WM
 * Other users(It will set only root user and password for it)
 * All sorts of additional improvements
+# After install your artix will like this
+  ![image](https://github.com/user-attachments/assets/76c2de86-f562-47b0-8d05-8f58cae0dfa2)
+
 ## **If you plan to clone repositories from github, you will need to download git**
 ```
 $ pacman -Sy
