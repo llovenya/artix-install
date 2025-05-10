@@ -90,7 +90,7 @@ fi
 mount --bind /dev /mnt/dev
 mount --bind /proc /mnt/proc
 mount --bind /sys /mnt/sys
-mount --bind /dev /mnt/dev
+mount --bind /run /mnt/run
 
 echo "root:$rootpass" | chpasswd -R /mnt
 
