@@ -95,6 +95,4 @@ mount --bind /dev /mnt/dev
 echo "root:$rootpass" | chpasswd -R /mnt
 
 clear
-cp vars.sh /mnt/root/
-
 
