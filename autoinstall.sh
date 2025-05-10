@@ -53,12 +53,13 @@ artix-chroot /mnt locale-gen
 echo "LANG=$locale" >> /mnt/etc/environment
 echo "LC_COLLATE=C" >> /mnt/etc/environment
 #grub
-basestrap /mnt grub efibootmgr
+basestrap /mnt grub 
 if [[ "$osprober" == "yes" ]]; then
   basestrap /mnt os-prober
 fi
 
 if [[ "$boot" == "UEFI" ]]; then
+   basestrap /mnt efibootmgr
    artix-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
  else
    artix-chroot /mnt grub-install --recheck /dev/$disk
