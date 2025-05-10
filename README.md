@@ -1,5 +1,5 @@
 # artix-install
-## This script will help you download artix linux.
+## This script will help you install artix linux.
 The script first asks the questions and then automatically sets according to your criteria
 
 ## It will set up
