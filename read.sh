@@ -103,9 +103,21 @@ bluetooth=""
 locale=""
 ntp=""
 
-while [[ -z "$rootpass" ]]; do
-  read -p "Enter new root pass " rootpass
+while [[ -z "$rootpass" || "$rootpass" != "$rootpassrepeat" ]]; do
+  clear
+  read -sp "Enter new root pass " rootpass
+  echo
+  read -sp "Repeat your root pass " rootpassrepeat
+  if [[ "$rootpass" != "$rootpassrepeat" ]]; then
+    echo "Password don't match"
+    sleep 2
+  elif [[ -z "$rootpass" ]]; then
+    echo "Password cannot be empty"
+    sleep 2
+  fi
 done
+echo -e "\nPassword set successfully"
+
 while ! [[ -f "/usr/share/zoneinfo/$localetime" ]]; do
   clear
   ls /usr/share/zoneinfo
