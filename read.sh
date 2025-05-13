@@ -12,7 +12,6 @@ while ! [[ -b "/dev/$disk" ]] ; do
   fi
 done
 cfdisk "/dev/$disk" 
-clear
 
 #Choose mount 
 bootdisk=""
